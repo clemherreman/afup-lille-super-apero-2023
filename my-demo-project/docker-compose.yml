@@ -1,0 +1,61 @@
+version: '3.7'
+
+services:
+  nginx:
+    build:
+      context: .
+      target: nginx_base
+    ports: [ "80" ]
+    depends_on:
+      php:
+        condition: service_healthy
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes_from:
+      - php
+    environment:
+      PHP_HOST: php
+    networks:
+      app.mydocker:
+        aliases:
+          - www
+
+  php:
+    build:
+      context: .
+      target: php_dev
+    volumes:
+      - code:/var/www/:delegated
+      - ./docker/php/conf.d/app.dev.ini:/usr/local/etc/php/conf.d/app.ini
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      PHP_IDE_CONFIG: "serverName=docker"
+    networks:
+      - app.mydocker
+
+  database:
+    image: mysql:8
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+      MYSQL_DATABASE: "myapp"
+    healthcheck:
+      test: "mysql -uroot myapp -e 'select 1'"
+    networks:
+      - app.mydocker
+
+  mailcatcher:
+    image: 'schickling/mailcatcher'
+    networks:
+      - app.mydocker
+
+networks:
+  app.mydocker:
+    name: app.mydocker
+
+volumes:
+  code:
+    driver_opts:
+      type: none
+      device: ${PWD}
+      o: bind

@@ -1,0 +1,13 @@
+vendor/*
+var/*
+public/build/
+.phpunit.result.cache
+.git
+infra/
+deploy/
+aws/
+docker-*
+!docker-entrypoint.sh
+Dockerfile
+phpunit-report.xml
+docker-compose.override.yml

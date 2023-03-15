@@ -1,0 +1,55 @@
+server {
+    listen 80;
+    server_name _;
+    root /var/www/public;
+
+    server_tokens off;
+
+    client_body_buffer_size 2M;
+    client_max_body_size 12M;
+
+    location / {
+        # try to serve file directly, fallback to index.php
+        try_files $uri /index.php$is_args$args;
+    }
+
+    location = /ping {
+        access_log off;
+        
+        fastcgi_pass ${PHP_HOST}:9000;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+    }
+
+    location ~ ^/index\.php(/|$) {
+        fastcgi_pass ${PHP_HOST}:9000;
+        fastcgi_split_path_info ^(.+\.php)(/.*)$;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+        fastcgi_param DOCUMENT_ROOT $realpath_root;
+
+        fastcgi_buffers 8 16k;
+        fastcgi_buffer_size 32k;
+        fastcgi_connect_timeout 60;
+        fastcgi_send_timeout 300;
+        fastcgi_read_timeout 300;
+
+        internal;
+    }
+
+    location ~ \.php$ {
+        return 404;
+    }
+}
+
+server {
+    access_log off;
+
+    listen 81;
+    server_name localhost;
+
+    location /nginx_status {
+        stub_status;
+        server_tokens on;
+    }
+}
