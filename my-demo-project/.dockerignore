@@ -1,6 +1,5 @@
 vendor/*
 var/*
-
 .phpunit.result.cache
 .git
 infra/

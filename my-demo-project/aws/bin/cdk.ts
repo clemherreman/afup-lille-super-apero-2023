@@ -21,7 +21,7 @@ new VpcStack(app, 'VpcParis', {
 
 const vpcName = 'VpcParis/PocEcsCherreman';
 const appName = 'afup-demo-app';
-const appVersion = process.env.CI_COMMIT_SHORT_SHA || 'latest';
+const appVersion = process.env.VERSION || 'latest';
 
 const loadBalancerDev = new LoadBalancerStack(app, 'load-balancer-dev', {
     env,

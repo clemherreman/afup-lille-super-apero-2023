@@ -131,6 +131,7 @@ COPY config config/
 COPY public public/
 COPY src src/
 COPY templates templates/
+COPY translations translations/
 COPY migrations migrations/
 
 # Only needed for CI.

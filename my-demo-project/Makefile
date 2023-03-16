@@ -100,10 +100,10 @@ aws-ecr-login: ## Log to AWS ECR repositories, for nginx et php
 
 aws-ecr-build-push-images: ## Log to AWS ECR repositories, for nginx et php
 	docker compose -f docker-compose.ci.yml build
-	docker tag my-demo-project-nginx:latest $(AWS_ECR_BASE_URL)/afup-demo-app-nginx-dev:latest
-	docker tag my-demo-project-php:latest $(AWS_ECR_BASE_URL)/afup-demo-app-php-dev:latest
-	docker push $(AWS_ECR_BASE_URL)/afup-demo-app-nginx-dev:latest
-	docker push $(AWS_ECR_BASE_URL)/afup-demo-app-php-dev:latest
+	docker tag my-demo-project-nginx:latest $(AWS_ECR_BASE_URL)/afup-demo-app-nginx-dev:$(VERSION)
+	docker tag my-demo-project-php:latest $(AWS_ECR_BASE_URL)/afup-demo-app-php-dev:$(VERSION)
+	docker push $(AWS_ECR_BASE_URL)/afup-demo-app-nginx-dev:$(VERSION)
+	docker push $(AWS_ECR_BASE_URL)/afup-demo-app-php-dev:$(VERSION)
 
 aws-exec-dev-phpfpm-www-data: ## Connect to the ECS current task on the PHP-FPM container for the DEV env
 	aws ecs execute-command --cluster afup-demo-app-dev  --task `aws ecs list-tasks --cluster afup-demo-app-dev  --service afup-demo-app-dev | jq -r '.taskArns[0]'` --container php-fpm --interactive --command "sudo -E -u www-data /bin/sh -l"
