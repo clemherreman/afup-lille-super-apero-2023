@@ -1,0 +1,14 @@
+version: '3.7'
+
+services:
+  nginx:
+    depends_on:
+      - php
+    build:
+      context: .
+      target: nginx_prod
+
+  php:
+    build:
+      context: .
+      target: php_prod

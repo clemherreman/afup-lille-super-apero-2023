@@ -7,6 +7,8 @@ SYMFONY         = $(EXEC) bin/console
 YARN            = $(EXEC) yarn
 COMPOSER        = $(EXEC) composer
 
+AWS_ECR_BASE_URL = 586412372178.dkr.ecr.eu-west-3.amazonaws.com
+
 ##
 ## Project
 ## -------
@@ -91,40 +93,33 @@ vendor:
 ## AWS Dev
 ## -------
 ##
+
+aws-ecr-login: ## Log to AWS ECR repositories, for nginx et php
+	aws ecr get-login-password --region eu-west-3 | docker login --username AWS --password-stdin $(AWS_ECR_BASE_URL)/afup-demo-app-nginx-dev
+	aws ecr get-login-password --region eu-west-3 | docker login --username AWS --password-stdin $(AWS_ECR_BASE_URL)/afup-demo-app-php-dev
+
+aws-ecr-build-push-images: ## Log to AWS ECR repositories, for nginx et php
+	docker compose -f docker-compose.ci.yml build
+	docker tag my-demo-project-nginx:latest $(AWS_ECR_BASE_URL)/afup-demo-app-nginx-dev:latest
+	docker tag my-demo-project-php:latest $(AWS_ECR_BASE_URL)/afup-demo-app-php-dev:latest
+	docker push $(AWS_ECR_BASE_URL)/afup-demo-app-nginx-dev:latest
+	docker push $(AWS_ECR_BASE_URL)/afup-demo-app-php-dev:latest
+
 aws-exec-dev-phpfpm-www-data: ## Connect to the ECS current task on the PHP-FPM container for the DEV env
-	aws ecs execute-command --cluster glue-dev  --task `aws ecs list-tasks --cluster glue-dev  --service glue-dev | jq -r '.taskArns[0]'` --container php-fpm --interactive --command "sudo -E -u www-data /bin/sh -l"
+	aws ecs execute-command --cluster afup-demo-app-dev  --task `aws ecs list-tasks --cluster afup-demo-app-dev  --service afup-demo-app-dev | jq -r '.taskArns[0]'` --container php-fpm --interactive --command "sudo -E -u www-data /bin/sh -l"
 
 aws-exec-dev-phpfpm-root: ## Connect to the ECS current task on the PHP-FPM container for the DEV env
-	aws ecs execute-command --cluster glue-dev  --task `aws ecs list-tasks --cluster glue-dev  --service glue-dev | jq -r '.taskArns[0]'` --container php-fpm --interactive --command "sh"
+	aws ecs execute-command --cluster afup-demo-app-dev  --task `aws ecs list-tasks --cluster afup-demo-app-dev  --service afup-demo-app-dev | jq -r '.taskArns[0]'` --container php-fpm --interactive --command "sh"
 
 aws-exec-dev-supervisord-www-data: ## Connect to the ECS current task on the supervisord container for the DEV env
-	aws ecs execute-command --cluster glue-dev  --task `aws ecs list-tasks --cluster glue-dev  --service glue-dev \
+	aws ecs execute-command --cluster afup-demo-app-dev  --task `aws ecs list-tasks --cluster afup-demo-app-dev  --service afup-demo-app-dev \
 	| jq -r '.taskArns[0]'` --container supervisor --interactive --command "sudo -E -u www-data /bin/sh -l"
 
 aws-exec-dev-supervisord-root: ## Connect to the ECS current task on the supervisord container for the DEV env
-	aws ecs execute-command --cluster glue-dev  --task `aws ecs list-tasks --cluster glue-dev  --service glue-dev | jq -r '.taskArns[0]'` --container supervisor --interactive --command "sh"
+	aws ecs execute-command --cluster afup-demo-app-dev  --task `aws ecs list-tasks --cluster afup-demo-app-dev  --service afup-demo-app-dev | jq -r '.taskArns[0]'` --container supervisor --interactive --command "sh"
 
 aws-exec-dev-nginx-root: ## Connect to the ECS current task on the NGINX container for the DEV env
-	aws ecs execute-command --cluster glue-dev  --task `aws ecs list-tasks --cluster glue-dev  --service glue-dev | jq -r '.taskArns[0]'` --container nginx --interactive --command "sh"
-
-##
-## AWS Prod
-## --------
-##
-aws-exec-prod-phpfpm-www-data: ## Connect to the ECS current task on the PHP-FPM container for the PROD env
-	aws ecs execute-command --cluster glue-prod --task `aws ecs list-tasks --cluster glue-prod --service glue-prod | jq -r '.taskArns[0]'` --container php-fpm --interactive --command "sudo -E -u www-data /bin/sh -l"
-
-aws-exec-prod-phpfpm-root: ## Connect to the ECS current task on the PHP-FPM container for the PROD env
-	aws ecs execute-command --cluster glue-prod --task `aws ecs list-tasks --cluster glue-prod --service glue-prod | jq -r '.taskArns[0]'` --container php-fpm --interactive --command "sh"
-
-aws-exec-prod-supervisord-www-data: ## Connect to the ECS current task on the supervisord container for the PROD env
-	aws ecs execute-command --cluster glue-prod --task `aws ecs list-tasks --cluster glue-prod --service glue-prod | jq -r '.taskArns[0]'` --container supervisor --interactive --command "sudo -E -u www-data /bin/sh -l"
-
-aws-exec-prod-supervisord-root: ## Connect to the ECS current task on the supervisord container for the PROD env
-	aws ecs execute-command --cluster glue-prod --task `aws ecs list-tasks --cluster glue-prod --service glue-prod | jq -r '.taskArns[0]'` --container supervisor --interactive --command "sh"
-
-aws-exec-prod-nginx-root: ## Connect to the ECS current tast on the NGINX container for the PROD env
-	aws ecs execute-command --cluster glue-prod --task `aws ecs list-tasks --cluster glue-prod --service glue-prod | jq -r '.taskArns[0]'` --container nginx --interactive --command "sh"
+	aws ecs execute-command --cluster afup-demo-app-dev  --task `aws ecs list-tasks --cluster afup-demo-app-dev  --service afup-demo-app-dev | jq -r '.taskArns[0]'` --container nginx --interactive --command "sh"
 
 
 .DEFAULT_GOAL := help

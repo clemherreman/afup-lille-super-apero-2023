@@ -1,0 +1,145 @@
+{
+  "vpc-provider:account=586412372178:filter.vpc-id=vpc-02ed6d9b14cc49b12:region=eu-west-3:returnAsymmetricSubnets=true": {
+    "vpcId": "vpc-02ed6d9b14cc49b12",
+    "vpcCidrBlock": "10.0.0.0/16",
+    "availabilityZones": [],
+    "subnetGroups": [
+      {
+        "name": "Isolated",
+        "type": "Isolated",
+        "subnets": [
+          {
+            "subnetId": "subnet-045381dda2871daad",
+            "cidr": "10.0.128.0/20",
+            "availabilityZone": "eu-west-3a",
+            "routeTableId": "rtb-0b6a365d57ec40290"
+          }
+        ]
+      },
+      {
+        "name": "Public",
+        "type": "Public",
+        "subnets": [
+          {
+            "subnetId": "subnet-04f51335501cadfb2",
+            "cidr": "10.0.0.0/20",
+            "availabilityZone": "eu-west-3a",
+            "routeTableId": "rtb-0bd2d16604bb71eea"
+          }
+        ]
+      }
+    ]
+  },
+  "availability-zones:account=586412372178:region=eu-west-3": [
+    "eu-west-3a",
+    "eu-west-3b",
+    "eu-west-3c"
+  ],
+  "vpc-provider:account=586412372178:filter.tag:Name=VpcParis/PocEcsCherreman:region=eu-west-3:returnAsymmetricSubnets=true": {
+    "vpcId": "vpc-05102f5988b6287fc",
+    "vpcCidrBlock": "10.0.0.0/16",
+    "availabilityZones": [],
+    "subnetGroups": [
+      {
+        "name": "Private",
+        "type": "Private",
+        "subnets": [
+          {
+            "subnetId": "subnet-0deb52e70e6ccf1c6",
+            "cidr": "10.0.128.0/18",
+            "availabilityZone": "eu-west-3a",
+            "routeTableId": "rtb-0072029032bb56162"
+          },
+          {
+            "subnetId": "subnet-0354779a4a842cd78",
+            "cidr": "10.0.192.0/18",
+            "availabilityZone": "eu-west-3b",
+            "routeTableId": "rtb-08be2532cda684b2c"
+          }
+        ]
+      },
+      {
+        "name": "Public",
+        "type": "Public",
+        "subnets": [
+          {
+            "subnetId": "subnet-01966c9190224b681",
+            "cidr": "10.0.0.0/18",
+            "availabilityZone": "eu-west-3a",
+            "routeTableId": "rtb-05f9af2aaaa420b7c"
+          },
+          {
+            "subnetId": "subnet-0d98085b59cd29f67",
+            "cidr": "10.0.64.0/18",
+            "availabilityZone": "eu-west-3b",
+            "routeTableId": "rtb-0861e99201bd1d1ae"
+          }
+        ]
+      }
+    ]
+  },
+  "load-balancer:account=586412372178:loadBalancerArn=arn$:aws:elasticloadbalancing:eu-west-3:586412372178:loadbalancer/app/load-balancer-paris/392b8aafe7ada254:loadBalancerType=application:region=eu-west-3": {
+    "loadBalancerArn": "arn:aws:elasticloadbalancing:eu-west-3:586412372178:loadbalancer/app/load-balancer-paris/392b8aafe7ada254",
+    "loadBalancerCanonicalHostedZoneId": "Z3Q77PNBQS71R4",
+    "loadBalancerDnsName": "load-balancer-paris-248913850.eu-west-3.elb.amazonaws.com",
+    "vpcId": "vpc-05102f5988b6287fc",
+    "securityGroupIds": [
+      "sg-025e0858488323a17"
+    ],
+    "ipAddressType": "ipv4"
+  },
+  "load-balancer-listener:account=586412372178:listenerArn=arn$:aws:elasticloadbalancing:eu-west-3:586412372178:listener/app/load-balancer-paris/392b8aafe7ada254/6f58807bd62a7d38:loadBalancerType=application:region=eu-west-3": {
+    "listenerArn": "arn:aws:elasticloadbalancing:eu-west-3:586412372178:listener/app/load-balancer-paris/392b8aafe7ada254/6f58807bd62a7d38",
+    "listenerPort": 80,
+    "securityGroupIds": [
+      "sg-025e0858488323a17"
+    ]
+  },
+  "vpc-provider:account=586412372178:filter.vpc-id=vpc-05102f5988b6287fc:region=eu-west-3:returnAsymmetricSubnets=true": {
+    "vpcId": "vpc-05102f5988b6287fc",
+    "vpcCidrBlock": "10.0.0.0/16",
+    "availabilityZones": [],
+    "subnetGroups": [
+      {
+        "name": "Private",
+        "type": "Private",
+        "subnets": [
+          {
+            "subnetId": "subnet-0deb52e70e6ccf1c6",
+            "cidr": "10.0.128.0/18",
+            "availabilityZone": "eu-west-3a",
+            "routeTableId": "rtb-0072029032bb56162"
+          },
+          {
+            "subnetId": "subnet-0354779a4a842cd78",
+            "cidr": "10.0.192.0/18",
+            "availabilityZone": "eu-west-3b",
+            "routeTableId": "rtb-08be2532cda684b2c"
+          }
+        ]
+      },
+      {
+        "name": "Public",
+        "type": "Public",
+        "subnets": [
+          {
+            "subnetId": "subnet-01966c9190224b681",
+            "cidr": "10.0.0.0/18",
+            "availabilityZone": "eu-west-3a",
+            "routeTableId": "rtb-05f9af2aaaa420b7c"
+          },
+          {
+            "subnetId": "subnet-0d98085b59cd29f67",
+            "cidr": "10.0.64.0/18",
+            "availabilityZone": "eu-west-3b",
+            "routeTableId": "rtb-0861e99201bd1d1ae"
+          }
+        ]
+      }
+    ]
+  },
+  "security-group:account=586412372178:region=eu-west-3:securityGroupId=sg-025e0858488323a17": {
+    "securityGroupId": "sg-025e0858488323a17",
+    "allowAllOutbound": false
+  }
+}

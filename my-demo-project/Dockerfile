@@ -135,9 +135,9 @@ COPY migrations migrations/
 
 # Only needed for CI.
 # Maybe something to do here.
-COPY .env.test behat.yml.dist phpunit.xml.dist ./
+COPY .env.test  phpunit.xml.dist ./
 COPY tests tests/
-COPY features features/
+
 
 RUN set -eux; \
     mkdir -p var/cache var/log; \

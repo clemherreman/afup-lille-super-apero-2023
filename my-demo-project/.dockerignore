@@ -1,6 +1,6 @@
 vendor/*
 var/*
-public/build/
+
 .phpunit.result.cache
 .git
 infra/
